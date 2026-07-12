@@ -70,7 +70,13 @@ def add_documents(files):
 
 mode_label = "🖥️ Running locally with Ollama (free, private)" if using_ollama() else "☁️ Running with OpenAI API"
 
-with gr.Blocks(title="Research & Study Assistant") as demo:
+# Create theme with purple color
+theme = gr.themes.Soft(
+    primary_hue="purple",
+    secondary_hue="purple",
+)
+
+with gr.Blocks(title="Research & Study Assistant", theme=theme) as demo:
     gr.Markdown(
         f"# 📚 Research & Study Assistant\n"
         f"*{mode_label}*\n\n"

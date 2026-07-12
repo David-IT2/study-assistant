@@ -12,62 +12,9 @@ Gradio chat interface.
   do a calculation, or search the live web to answer a question
 - Remembers context within a conversation
 
-## 1. Setup (one-time)
 
-**Requirements:** Python 3.10 or newer.
 
-```bash
-# 1. Unzip this project and open a terminal in the folder
-cd study-assistant
-
-# 2. Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate        # Mac/Linux
-venv\Scripts\activate           # Windows
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Create your .env file
-cp .env.example .env             # Windows: copy .env.example .env
-```
-
-Now choose **one** of the two options below.
-
-### Option A — OpenAI (easiest, costs a small amount per request)
-
-Open `.env` and:
-- Leave `LLM_PROVIDER=openai`
-- Paste your key from https://platform.openai.com/api-keys into `OPENAI_API_KEY`
-
-### Option B — Ollama (100% free, runs fully on your computer, no key, no internet needed after setup)
-
-1. Install Ollama from **https://ollama.com** (available for Mac, Windows, Linux).
-2. Pull a chat model and an embedding model (one-time download, a few GB):
-   ```bash
-   ollama pull llama3.2
-   ollama pull nomic-embed-text
-   ```
-3. Make sure Ollama is running (the installer usually starts it automatically;
-   otherwise run `ollama serve` in a separate terminal).
-4. Open `.env` and set:
-   ```
-   LLM_PROVIDER=ollama
-   OLLAMA_MODEL=llama3.2
-   OLLAMA_EMBED_MODEL=nomic-embed-text
-   ```
-   You can leave `OPENAI_API_KEY` blank — it's ignored in this mode.
-
-**Notes on Ollama mode:**
-- Everything (chat + document embeddings) runs on your machine — nothing is sent to OpenAI.
-- Web search still works normally (DuckDuckGo doesn't need a key either way).
-- Response quality and speed depend on your computer's hardware. `llama3.2` (3B) runs
-  fine on most modern laptops; if you have a beefier machine and want better answers,
-  try `ollama pull llama3.1` (8B) or `ollama pull qwen2.5:14b` and update `OLLAMA_MODEL`.
-- If you switch providers later, delete `chroma_db/` and re-run `python ingest.py` —
-  embeddings from different providers aren't compatible with each other.
-
-## 2. (Optional) Add documents before you start
+## . (Optional) Add documents before you start
 
 Drop `.pdf` or `.txt` files into the `docs/` folder, then run:
 
@@ -77,9 +24,9 @@ python ingest.py
 
 This builds a local vector database (`chroma_db/`) so the assistant can
 search these files. You can skip this step and upload files directly in
-the web app instead (see below).
+the web app instead.
 
-## 3. Run the app
+## . Run the app
 
 ```bash
 python app.py
@@ -110,17 +57,6 @@ study-assistant/
 ├── .env.example      # Copy to .env — set LLM_PROVIDER here (openai or ollama)
 └── README.md
 ```
-
-## Troubleshooting
-
-- **"OPENAI_API_KEY is not set"** — make sure you created `.env` (not just
-  `.env.example`) and it contains your real key.
-- **Agent isn't using a tool you expect** — this is normal occasionally;
-  rephrase the question to be more explicit (e.g. "search my documents for...").
-- **Want to start the knowledge base over** — delete the `chroma_db/` folder
-  and re-run `python ingest.py`, or re-upload files in the app.
-- **Rate limit errors** — you may be on a free/trial OpenAI tier with low
-  limits; check your usage at platform.openai.com.
 
 ## How it works (short version)
 

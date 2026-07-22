@@ -70,13 +70,41 @@ def add_documents(files):
 
 mode_label = "🖥️ Running locally with Ollama (free, private)" if using_ollama() else "☁️ Running with OpenAI API"
 
-# Create theme with purple color
+# Create theme with a rich purple palette
 theme = gr.themes.Soft(
     primary_hue="purple",
     secondary_hue="purple",
 )
 
-with gr.Blocks(title="Research & Study Assistant", theme=theme) as demo:
+css = """
+:root {
+  --primary-50: #f5f3ff;
+  --primary-100: #ede9fe;
+  --primary-500: #8b5cf6;
+  --primary-600: #7c3aed;
+  --primary-700: #6d28d9;
+}
+
+.gradio-container {
+  background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+}
+
+h1, h2, h3 {
+  color: #6d28d9 !important;
+}
+
+button, .gr-button-primary, .gradio-button-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+  border-color: #6d28d9 !important;
+  color: white !important;
+}
+
+button:hover, .gr-button-primary:hover, .gradio-button-primary:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+}
+"""
+
+with gr.Blocks(title="Research & Study Assistant", theme=theme, css=css) as demo:
     gr.Markdown(
         f"# 📚 Research & Study Assistant\n"
         f"*{mode_label}*\n\n"
